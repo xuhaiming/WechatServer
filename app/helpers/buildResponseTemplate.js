@@ -10,9 +10,10 @@ const text = ({ toUser, fromUser, content }) => (
 const imageText = ({ toUser, fromUser, content }) => (
   `<xml>
     <ToUserName><![CDATA[${toUser}]]></ToUserName>
-    <FromUserName>< ![CDATA[${fromUser}] ]></FromUserName>
-    <CreateTime>12345678</CreateTime><MsgType>< ![CDATA[news] ]>
-    </MsgType><ArticleCount>2</ArticleCount>
+    <FromUserName><![CDATA[${fromUser}]]></FromUserName>
+    <CreateTime>12345678</CreateTime>
+    <MsgType><![CDATA[news]]></MsgType>
+    <ArticleCount>2</ArticleCount>
     <Articles>
       <item>
         <Title><![CDATA[first title]]></Title>
@@ -22,7 +23,7 @@ const imageText = ({ toUser, fromUser, content }) => (
       </item>
       <item>
         <Title><![CDATA[second title]]></Title>
-        <Description>< ![CDATA[${content + '2'}] ]></Description>
+        <Description><![CDATA[${content + '2'}]]></Description>
         <PicUrl><![CDATA[https://avatars2.githubusercontent.com/u/11340399?s=460&v=4]]></PicUrl>
         <Url><![CDATA[http://xuhaiming.github.io]]></Url>
       </item>
