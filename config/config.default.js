@@ -5,3 +5,5 @@ exports.security = {
     ignore: ctx => true,
   },
 };
+
+exports.middleware = ['interceptor'];
