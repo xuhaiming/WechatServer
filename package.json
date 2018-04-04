@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/xuhaiming/WechatServer#readme",
   "dependencies": {
+    "crypto": "^1.0.1",
     "egg": "^2.5.0"
   },
   "devDependencies": {
