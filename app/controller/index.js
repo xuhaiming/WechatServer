@@ -30,10 +30,12 @@ class IndexController extends Controller {
 
   async gatewayPost() {
     const { ctx } = this;
-    const { query } = this.ctx;
+    const { req } = this.ctx;
 
     console.log('---POST');
     console.log(ctx);
+    console.log('---Request');
+    console.log(req);
 
     ctx.body = 'Hello world';
   }
