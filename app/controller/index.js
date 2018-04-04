@@ -20,9 +20,12 @@ class IndexController extends Controller {
     const tmpStr = tmpArr.join('');
     const sha1EncodeStr = crypto.createHash('sha1').update(tmpStr).digest('hex');
 
-    console.log('---encode string: ', sha1EncodeStr);
-
-    ctx.body = 'Hello world';
+    if (sha1EncodeStr === signature) {
+      ctx.body = echostr;
+      ctx.status = 200;
+    } else {
+      ctx.status = 400;
+    }
   }
 
   async gatewayPost() {
