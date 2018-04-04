@@ -1,0 +1,28 @@
+{
+  "name": "wechatserver",
+  "version": "1.0.0",
+  "description": "wechat server",
+  "main": "index.js",
+  "scripts": {
+    "dev": "egg-bin dev --port=80"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/xuhaiming/WechatServer.git"
+  },
+  "keywords": [
+    "wechat"
+  ],
+  "author": "Haiming Xu",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/xuhaiming/WechatServer/issues"
+  },
+  "homepage": "https://github.com/xuhaiming/WechatServer#readme",
+  "dependencies": {
+    "egg": "^2.5.0"
+  },
+  "devDependencies": {
+    "egg-bin": "^4.6.2"
+  }
+}
