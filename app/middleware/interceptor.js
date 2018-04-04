@@ -12,7 +12,7 @@ module.exports = options => {
     //入参参数校验
     try{
       //把xml转成json
-      if(this.request.header["content-type"] === 'text/xml'){
+      if (this.request.header["content-type"] === 'text/xml') {
         let buff = yield getRawBody(this.request.req);
         let resultjson = JSON.parse(xmlparser.toJson(buff)).xml;
         this.request.body = resultjson;
@@ -32,8 +32,8 @@ module.exports = options => {
     //返回控制权给控制器
     yield next;
     //拦截response请求
-    if(this.response.body){
-      this.logger.info(`----last response body----${JSON.stringify(this.response.body)}`);
+    if (this.response.body) {
+      // this.logger.info(`----last response body----${JSON.stringify(this.response.body)}`);
     }
   };
 };

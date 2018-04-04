@@ -40,6 +40,11 @@ class IndexController extends Controller {
     console.log(request.body);
 
     if (MsgType === 'text') {
+      console.log(buildResponseTemplate.text({
+        toUser: FromUserName,
+        fromUser: wechatConfig.userName,
+        content: 'Received text message',
+      }));
       ctx.body = buildResponseTemplate.text({
         toUser: FromUserName,
         fromUser: wechatConfig.userName,
