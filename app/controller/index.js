@@ -37,7 +37,8 @@ class IndexController extends Controller {
     console.log('---Request');
     console.log(request.body);
 
-    ctx.body = 'Hello world';
+    ctx.body = '';
+    cts.status = 200;
   }
 }
 
