@@ -2,7 +2,12 @@ const Controller = require('egg').Controller;
 
 class IndexController extends Controller {
   async gateway() {
-    this.ctx.body = 'Hello world';
+    const { ctx } = this;
+    const { query } = this.ctx;
+
+    console.log(query);
+
+    ctx.body = 'Hello world';
   }
 }
 
