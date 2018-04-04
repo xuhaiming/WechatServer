@@ -38,7 +38,7 @@ class IndexController extends Controller {
     console.log(request.body);
 
     ctx.body = '';
-    cts.status = 200;
+    ctx.status = 200;
   }
 }
 

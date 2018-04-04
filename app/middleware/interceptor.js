@@ -14,7 +14,7 @@ module.exports = options => {
       //把xml转成json
       if(this.request.header["content-type"] === 'text/xml'){
         let buff = yield getRawBody(this.request.req);
-        console.log('---buff', buff);
+        console.log('---buff', this.request.req);
         let resultjson = JSON.parse(xmlparser.toJson(buff)).xml;
         this.request.body = resultjson;
       } else {
