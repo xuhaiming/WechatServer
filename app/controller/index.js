@@ -1,6 +1,7 @@
 const Controller = require('egg').Controller;
 const crypto = require('crypto');
 const wechatConfig = require('../../config/wechatConfig');
+const buildResponseTemplate = require('../helpers/buildResponseTemplate');
 
 class IndexController extends Controller {
   async gateway() {
@@ -31,13 +32,23 @@ class IndexController extends Controller {
   async gatewayPost() {
     const { ctx } = this;
     const { query, request } = this.ctx;
+    const { MsgType, FromUserName } = request.body;
 
     console.log('---POST');
     console.log(query);
     console.log('---Request');
     console.log(request.body);
 
-    ctx.body = '';
+    if (MsgType === 'text') {
+      ctx.body = buildResponseTemplate.text({
+        toUser: FromUserName,
+        fromUser: wechatConfig.userName,
+        content: 'Received text message',
+      });
+    } else {
+      ctx.body = '';
+    }
+
     ctx.status = 200;
   }
 }
