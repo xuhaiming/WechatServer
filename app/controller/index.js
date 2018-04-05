@@ -96,7 +96,7 @@ class IndexController extends Controller {
 
     console.log(result.data);
 
-    ctx.body = 'success';
+    ctx.body = `https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=${result.data.ticket}`;
     ctx.status = 200;
   }
 }
