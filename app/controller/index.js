@@ -91,7 +91,7 @@ class IndexController extends Controller {
       dataType: 'json',
       data: {
         expire_seconds: 100000,
-        action_name: 'QR_SCENE',
+        action_name: 'QR_STR_SCENE',
         action_info: {
           scene: {
             scene_str: `user_${query.id}`,
