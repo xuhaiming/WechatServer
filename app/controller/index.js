@@ -52,6 +52,12 @@ class IndexController extends Controller {
           fromUser: wechatConfig.userName,
           content: 'Received text message',
         });
+      } else if (MsgType === 'event') {
+        ctx.body = buildResponseTemplate.text({
+          toUser: FromUserName,
+          fromUser: wechatConfig.userName,
+          content: 'Welcome to our offical account!',
+        });
       } else {
         ctx.body = '';
       }
