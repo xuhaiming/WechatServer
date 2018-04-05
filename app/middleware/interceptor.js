@@ -23,11 +23,7 @@ module.exports = options => {
         this.request.body = JSON.parse(reqJson);
       }
 
-    } catch (e) {
-      // this.response.body = errorModule.JSON_PARSE_ERR;
-      this.logger.info(`---response body----${JSON.stringify(this.response.body)}`);
-      return;
-    }
+    } catch (e) {}
 
     //返回控制权给控制器
     yield next;
