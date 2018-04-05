@@ -14,6 +14,8 @@ const isSignatureValid = ({
   return signature === sha1EncodeStr;
 };
 
+const userMap = {};
+
 class IndexController extends Controller {
   async gateway() {
     const { ctx } = this;
@@ -36,7 +38,7 @@ class IndexController extends Controller {
   async gatewayPost() {
     const { ctx } = this;
     const { query, request } = this.ctx;
-    const { MsgType, FromUserName } = request.body;
+    const { MsgType, FromUserName, EventKey } = request.body;
 
     console.log('---POST');
     console.log(query);
@@ -53,10 +55,17 @@ class IndexController extends Controller {
           content: 'Received text message',
         });
       } else if (MsgType === 'event') {
+        const eventKeyArray = EventKey.split('_');
+        const id = eventKeyArray[eventKeyArray.length - 1];
+        userMap[id] = {
+          username: FromUserName,
+        };
+        console.log('---Users');
+        console.log(userMap);
         ctx.body = buildResponseTemplate.text({
           toUser: FromUserName,
           fromUser: wechatConfig.userName,
-          content: 'Welcome to our offical account!',
+          content: `Welcome to our offical account, User${id}!`,
         });
       } else {
         ctx.body = '';
@@ -103,6 +112,29 @@ class IndexController extends Controller {
     console.log(result.data);
 
     ctx.body = `https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=${result.data.ticket}`;
+    ctx.status = 200;
+  }
+
+  async sendMessage() {
+    const { ctx } = this;
+    const { query } = this.ctx;
+
+    const result = await ctx.curl(`https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=${wechatConfig.accessToken}`, {
+      method: 'POST',
+      contentType: 'json',
+      dataType: 'json',
+      data: {
+        touser: userMap['1'].username,
+        msgtype: 'text',
+        text: {
+          content: query.message,
+        },
+      },
+    });
+
+    console.log(result.data);
+
+    ctx.body = '';
     ctx.status = 200;
   }
 }
