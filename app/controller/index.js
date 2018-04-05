@@ -94,7 +94,7 @@ class IndexController extends Controller {
         action_name: 'QR_SCENE',
         action_info: {
           scene: {
-            scene_id: query.id,
+            scene_str: `user_${query.id}`,
           },
         },
       },
