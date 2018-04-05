@@ -38,7 +38,7 @@ class IndexController extends Controller {
   async gatewayPost() {
     const { ctx } = this;
     const { query, request } = this.ctx;
-    const { MsgType, FromUserName, EventKey } = request.body;
+    const { MsgType, FromUserName, EventKey, Content } = request.body;
 
     console.log('---POST');
     console.log(query);
@@ -49,11 +49,22 @@ class IndexController extends Controller {
       ctx.status = 400;
     } else {
       if (MsgType === 'text') {
-        ctx.body = buildResponseTemplate.imageText({
-          toUser: FromUserName,
-          fromUser: wechatConfig.userName,
-          content: 'Received text message',
-        });
+        if (Content === 'magic') {
+          ctx.body = buildResponseTemplate.imageText({
+            toUser: FromUserName,
+            fromUser: wechatConfig.userName,
+            content: 'Received text message',
+          });
+        } else {
+          if (userMap['1'] && FromUserName === userMap['1'].username && userMap['2']) {
+            this.sendMessage('2', Content);
+          }
+          if (userMap['2'] && FromUserName === userMap['2'].username && userMap['1']) {
+            this.sendMessage('1', Content);
+          }
+
+          ctx.body = '';
+        }
       } else if (MsgType === 'event') {
         const eventKeyArray = EventKey.split('_');
         const id = eventKeyArray[eventKeyArray.length - 1];
@@ -115,26 +126,28 @@ class IndexController extends Controller {
     ctx.status = 200;
   }
 
-  async sendMessage() {
+  async sendMessage(id, message) {
     const { ctx } = this;
     const { query } = this.ctx;
+    const toUserId = id || '1';
+    const content = message || query.message;
 
     const result = await ctx.curl(`https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=${wechatConfig.accessToken}`, {
       method: 'POST',
       contentType: 'json',
       dataType: 'json',
       data: {
-        touser: userMap['1'].username,
+        touser: userMap[toUserId].username,
         msgtype: 'text',
         text: {
-          content: query.message,
+          content: content,
         },
       },
     });
 
     console.log(result.data);
 
-    ctx.body = '';
+    ctx.body = `You just sent ${query.message}`;
     ctx.status = 200;
   }
 }
