@@ -1,6 +1,7 @@
 module.exports = {
-  appID: '',
+  appId: '',
   appsecret: '',
   token: '',
   userName: '',
+  accessToken: '',
 };

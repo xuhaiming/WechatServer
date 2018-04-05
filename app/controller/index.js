@@ -74,6 +74,31 @@ class IndexController extends Controller {
     ctx.body = 'success';
     ctx.status = 200;
   }
+
+  async getQrCode() {
+    const { ctx } = this;
+    const { query } = this.ctx;
+
+    const result = await ctx.curl(`https://api.weixin.qq.com/cgi-bin/qrcode/create?access_token=${wechatConfig.accessToken}`, {
+      method: 'POST',
+      contentType: 'json',
+      dataType: 'json',
+      data: {
+        expire_seconds: 100000,
+        action_name: 'QR_SCENE',
+        action_info: {
+          scene: {
+            scene_id: query.id,
+          },
+        },
+      },
+    });
+
+    console.log(result.data);
+
+    ctx.body = 'success';
+    ctx.status = 200;
+  }
 }
 
 module.exports = IndexController;
