@@ -63,8 +63,16 @@ class IndexController extends Controller {
   async getAccessToken() {
     const { ctx } = this;
 
+    const result = await app.curl('https://api.weixin.qq.com/cgi-bin/token', {
+      grant_type: 'client_credential',
+      appid: wechatConfig.appId,
+      secret: wechatConfig.appsecret,
+    });
+
+    console.log(result);
+
     ctx.body = 'success';
-    cts.status = 200;
+    ctx.status = 200;
   }
 }
 
