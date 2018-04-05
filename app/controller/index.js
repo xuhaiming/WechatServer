@@ -3,25 +3,29 @@ const crypto = require('crypto');
 const wechatConfig = require('../../config/wechatConfig');
 const buildResponseTemplate = require('../helpers/buildResponseTemplate');
 
+const isSignatureValid = ({
+  signature,
+  timestamp,
+  nonce,
+}) => {
+  const tmpArr = [wechatConfig.token, timestamp, nonce].sort();
+  const tmpStr = tmpArr.join('');
+  const sha1EncodeStr = crypto.createHash('sha1').update(tmpStr).digest('hex');
+  return signature === sha1EncodeStr;
+};
+
 class IndexController extends Controller {
   async gateway() {
     const { ctx } = this;
     const { query } = this.ctx;
     const {
-      signature,
-      timestamp,
-      nonce,
       echostr,
     } = query;
 
     console.log('---GET');
     console.log(query);
 
-    const tmpArr = [wechatConfig.token, timestamp, nonce].sort();
-    const tmpStr = tmpArr.join('');
-    const sha1EncodeStr = crypto.createHash('sha1').update(tmpStr).digest('hex');
-
-    if (sha1EncodeStr === signature) {
+    if (isSignatureValid(query)) {
       ctx.body = echostr;
       ctx.status = 200;
     } else {
@@ -39,17 +43,28 @@ class IndexController extends Controller {
     console.log('---Request');
     console.log(request.body);
 
-    if (MsgType === 'text') {
-      ctx.body = buildResponseTemplate.imageText({
-        toUser: FromUserName,
-        fromUser: wechatConfig.userName,
-        content: 'Received text message',
-      });
+    if (!isSignatureValid(query)) {
+      ctx.status = 400;
     } else {
-      ctx.body = '';
-    }
+      if (MsgType === 'text') {
+        ctx.body = buildResponseTemplate.imageText({
+          toUser: FromUserName,
+          fromUser: wechatConfig.userName,
+          content: 'Received text message',
+        });
+      } else {
+        ctx.body = '';
+      }
 
-    ctx.status = 200;
+      ctx.status = 200;
+    }
+  }
+
+  async getAccessToken() {
+    const { ctx } = this;
+
+    ctx.body = 'success';
+    cts.status = 200;
   }
 }
 
