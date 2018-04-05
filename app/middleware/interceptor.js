@@ -24,7 +24,7 @@ module.exports = options => {
       }
 
     } catch (e) {
-      this.response.body = errorModule.JSON_PARSE_ERR;
+      // this.response.body = errorModule.JSON_PARSE_ERR;
       this.logger.info(`---response body----${JSON.stringify(this.response.body)}`);
       return;
     }
